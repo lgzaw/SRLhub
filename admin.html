@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Legal Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Administration Panel</h1>
+        <p>System Management Console</p>
+    </header>
+
+    <nav class="admin-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="membership.html">Membership</a></li>
+            <li><a href="club.html">Cluber's Desktop</a></li>
+            <li><a href="round_table.html">Round Table</a></li>
+            <li><a href="tasks.html">My Tasks</a></li>
+            <li><a href="admin.html">Admin Panel</a></li>
+            <li><a href="#" onclick="app.handleLogout()">Log Out</a></li>
+        </ul>
+    </nav>
+
+    <main class="admin-container">
+        <section class="admin-section">
+            <h2>System Management</h2>
+            <div class="admin-actions">
+                <button onclick="manageDatabase('public')">Manage Public Articles</button>
+                <button onclick="manageDatabase('member')">Manage Member Content</button>
+                <button onclick="manageUsers()">Manage Users</button>
+                <button onclick="manageTasks()">Manage Tasks</button>
+            </div>
+        </section>
+
+        <section class="admin-section" id="management-interface">
+            <!-- Dynamic content loaded here -->
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        // Admin management functions
+        async function manageDatabase(type) {
+            const interface = document.getElementById('management-interface');
+            interface.innerHTML = `
+                <h3>Managing ${type.charAt(0).toUpperCase() + type.slice(1)} Articles</h3>
+                <div class="article-list" id="article-list"></div>
+                <button onclick="addNewArticle('${type}')">Add New Article</button>
+            `;
+
+            const db = type === 'public' 
+                ? await app.initDatabase()
+                : await app.initMemberDatabase();
+
+            const articles = type === 'public' ? db.articles : db.articles;
+            document.getElementById('article-list').innerHTML = articles
+                .map(article => `
+                    <div class="article-item">
+                        <input type="text" value="${article.title}">
+                        <button onclick="updateArticle('${type}', '${article.id}')">Save</button>
+                        <button onclick="deleteArticle('${type}', '${article.id}')">Delete</button>
+                    </div>
+                `).join('');
+        }
+
+        function addNewArticle(type) {
+            // Implementation for adding new articles
+        }
+
+        // Add similar functions for user and task management
+    </script>
+</body>
+</html>

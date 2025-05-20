@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Benefits - Legal Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="app.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Self-Representation Legal Hub</h1>
+        <p>Empowering Individuals in Legal Proceedings</p>
+    </header>
+
+    <nav class="header-nav">
+        <ul>
+            <div class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </div>
+            <li><a href="login.html" class="login-btn">Login/Register</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="membership-benefits">
+            <h2>Membership Tiers & Benefits</h2>
+            
+            <div class="benefits-tier">
+                <div class="tier-card free-tier">
+                    <h3>Basic Membership (Free)</h3>
+                    <ul class="benefits-list">
+                        <li>✓ Access to community forum</li>
+                        <li>✓ Basic document templates</li>
+                        <li>✓ Monthly legal webinars</li>
+                        <li>✗ Personalized case review</li>
+                        <li>✗ Priority email support</li>
+                    </ul>
+                </div>
+
+                <div class="tier-card premium-tier">
+                    <h3>Premium Membership ($99/yr)</h3>
+                    <ul class="benefits-list">
+                        <li>✓ All Basic benefits</li>
+                        <li>✓ Document review service</li>
+                        <li>✓ 24/7 emergency support</li>
+                        <li>✓ Case strategy consultation</li>
+                        <li>✓ Exclusive video library</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <a href="login.html?type=register" class="cta-button premium-cta">
+                    Upgrade to Premium Membership
+                </a>
+                <p class="disclaimer">Already have an account? <a href="login.html">Log in here</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Disclaimer: This website provides general legal information and is not a substitute for professional legal advice</p>
+        <p>&copy; 2023 Self-Representation Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        app.handlePublicAccess();
+    </script>
+</body>
+</html>

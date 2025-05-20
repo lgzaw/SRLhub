@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Display - Legal Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="app.js"></script>
+</head>
+<body>
+    <header>
+        <h1 id="article-title">Loading Article...</h1>
+        <p id="article-author" class="author-line"></p>
+    </header>
+
+    <nav class="header-nav">
+        <ul>
+            <div class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </div>
+            <li><a href="login.html" class="login-btn">Login/Register</a></li>
+        </ul>
+    </nav>
+
+    <main class="article-container">
+        <div class="content-section" id="article-content">
+            <!-- Content will be loaded here -->
+        </div>
+        
+        <div class="reference-section">
+            <h3>References</h3>
+            <ul id="article-references"></ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>Disclaimer: This website provides general legal information and is not a substitute for professional legal advice</p>
+        <p>&copy; 2023 Self-Representation Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Get article ID from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+
+        // Mock database connection
+        fetch('database.json')
+            .then(response => response.json())
+            .then(data => {
+                const article = data.articles.find(a => a.id == articleId);
+                if(article) {
+                    document.getElementById('article-title').textContent = article.title;
+                    document.getElementById('article-author').textContent = `By ${article.author}`;
+                    document.getElementById('article-content').innerHTML = article.content;
+                    
+                    const referencesList = document.getElementById('article-references');
+                    article.references.forEach(ref => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<a href="${ref.link}" target="_blank">${ref.title}</a>`;
+                        referencesList.appendChild(li);
+                    });
+                } else {
+                    document.getElementById('article-content').innerHTML = 
+                        `<p class="error">Article not found. Return to <a href="index.html">home page</a>.</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading article:', error);
+                document.getElementById('article-content').innerHTML = 
+                    `<p class="error">Error loading article. Please try again later.</p>`;
+            });
+
+        
+            function loadArticles(isMember) {
+                // Your existing article loading code
+                fetch('database.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Filter content based on membership
+                        const publicContent = data.articles.filter(a => a.id <= 5);
+                        const memberContent = data.articles.filter(a => a.id > 5);
+                        
+                        const displayContent = isMember ? 
+                            [...publicContent, ...memberContent] : 
+                            publicContent;
+                        
+                        // Render displayContent instead of all articles
+                    });
+            }
+
+        // Public access, but with session-aware content
+        //app.updateAuthUI();
+        
+        // Modify your existing article loading code:
+        const user = app.checkSession();
+        if(user) {
+            // Load both public and member content
+            loadArticles(true);
+        } else {
+            // Load only public content
+            loadArticles(false);
+        }
+        app.handlePublicAccess();
+    </script>
+</body>
+</html>

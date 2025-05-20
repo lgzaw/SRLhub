@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register - Self-Representation Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <header>
+        <h1>Self-Representation Legal Hub</h1>
+        <p>Empowering Individuals in Legal Proceedings</p>
+    </header>
+
+    <nav class="header-nav">
+        <ul>
+            <div class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="club.html">Cluber's Desktop</a></li>
+                <li><a href="round_table.html">Round Table</a></li>
+                <li><a href="tasks.html">My Tasks</a></li>
+                <li><a href="#" data-section="member-reading">Members' Reading</a></li>
+            </div>
+            <li class="profile-dropdown">
+                <div class="profile-icon">👤</div>
+                <div class="dropdown-content">
+                    <a href="round_table.html">Members' Round Table</a>
+                    <a href="#" onclick="app.handleLogout()">Log Out</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    
+    <main class="club-container">
+        <!-- Sidebar Navigation -->
+        <nav class="club-sidebar">
+            <ul>
+                <li data-section="profile">
+                    <span>👤 Profile</span>
+                </li>
+                <li data-section="messages">
+                    <span>📨 Messages</span>
+                </li>
+                <li data-section="tasks">
+                    <span>✅ Tasks</span>
+                </li>
+                <li data-section="payments">
+                    <span>💳 Payments</span>
+                </li>
+                <li class="active" data-section="articles">
+                    <span>📚 Articles</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Display Section -->
+        <section class="club-display" id="main-display">
+            <!-- Content will be dynamically loaded here -->
+        </section>
+    </main>
+    <!-- Modal Container -->
+    <div id="modal-container" class="modal"></div>
+
+    <footer>
+        <p>Disclaimer: This website provides general legal information and is not a substitute for professional legal advice</p>
+        <p>&copy; 2023 Self-Representation Hub. All rights reserved.</p>
+    </footer>
+
+
+    <!-- task order model -->
+        <div id="task-order-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Order New Legal Task</h2>
+                <div class="form-scroll-container">
+                <form id="task-order-form">
+                    <div class="form-group">
+                        <label>Task Title:</label>
+                        <input type="text" name="title" required 
+                            placeholder="E.g., Quote asking for [brief description]">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Task Details (max 500 words):</label>
+                        <textarea name="details" rows="6" maxlength="3000" required
+                            placeholder="Include:\n- Nature of task\n- Brief summary of situation\n- Expected outcomes"></textarea>
+                        <div class="word-counter">Words used: <span>0</span>/500</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Task Category:</label>
+                        <select name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="credibility">Credibility Analysis</option>
+                            <option value="merit">Merit Analysis</option>
+                            <option value="procedure">Procedure Fairness Analysis</option>
+                            <option value="evidence">Evidence Review</option>
+                            <option value="caselaw">Case Law Analysis</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preferred Contact Method:</label>
+                        <select name="contact_method" required>
+                            <option value="">Select Method</option>
+                            <option value="email">Email</option>
+                            <option value="phone">Phone Call</option>
+                            <option value="video">Video Conference</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preferred Contact Times:</label>
+                        <div class="time-selection">
+                            <label><input type="checkbox" name="days" value="mon"> Mon</label>
+                            <label><input type="checkbox" name="days" value="tue"> Tue</label>
+                            <label><input type="checkbox" name="days" value="wed"> Wed</label>
+                            <label><input type="checkbox" name="days" value="thu"> Thu</label>
+                            <label><input type="checkbox" name="days" value="fri"> Fri</label>
+                            <input type="time" name="preferred_time" required>
+                        </div>
+                    </div>
+
+                    <div class="disclaimer">
+                        <p>⚠️ Important Notices:</p>
+                        <ul>
+                            <li>Tasks must relate to self-representation matters only</li>
+                            <li>Complex cases requiring attorney involvement will be declined</li>
+                            <li>Information submitted is NOT protected by attorney-client privilege</li>
+                            <li>For non-listed categories, please email admin@legalhub.com first</li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="form-footer">
+                <button type="submit" class="submit-task">Submit Task Request</button>
+                </div>
+            </div>
+        </div>
+    
+    
+    <script src="app.js"></script>
+    <script>
+        if(window.app?.initialized) {
+            app.handlePublicAccess();
+        } else {
+            document.addEventListener('appInitialized', () => {
+            app.handlePublicAccess();
+            });
+        }
+        //document.addEventListener('DOMContentLoaded', async () => {//
+            // Initialize sidebar navigation
+            document.querySelectorAll('.club-sidebar li').forEach(item => {
+                item.addEventListener('click', async () => {
+                    // Set active state
+                    document.querySelectorAll('.club-sidebar li').forEach(li => 
+                        li.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // Load section content
+                    const section = item.dataset.section;
+                    loadSection(section);
+                });
+            });
+
+            // Initialize header navigation
+            document.querySelector('.nav-links').addEventListener('click',  function(e) {
+                if(e.target.matches('a[data-section="member-reading"]')) {
+                    e.preventDefault();
+                    const section = "member-reading";
+                    loadSection(section);
+                };
+            });
+
+            // Load initial section
+            loadSection('articles');
+        
+
+        async function loadSection(section) {
+            const display = document.getElementById('main-display');
+            display.innerHTML = '<div class="loading">Loading...</div>';
+            
+            try {
+                const user = app.checkSession();
+                const db = await app.initMemberDatabase();
+                switch(section) {
+                    case 'profile':
+                        display.innerHTML = await buildProfileSection(user);
+                        break;
+                    case 'messages':
+                        display.innerHTML = await buildMessagesSection(db, user);
+                        break;
+                    case 'tasks':
+                        display.innerHTML = await buildTasksSection(db, user);
+                        break;
+                    case 'payments':
+                        display.innerHTML = await buildPaymentsSection(db, user);
+                        break;
+                    case 'articles':
+                        display.innerHTML = await buildArticlesSection(db, user);
+                        break;
+                    case 'member-reading':
+                        display.innerHTML = await buildMemberReadingSection(db,user);
+                        break;
+                }
+                
+                // Initialize section-specific interactions
+                initSectionInteractions(section, db, user);
+            } catch (error) {
+                display.innerHTML = `<div class="error">Error loading content: ${error.message}</div>`;
+            }
+        }
+
+        async function buildProfileSection(user) {
+            return `
+                <div class="profile-section">
+                    <h2>Welcome, ${user.firstName} ${user.lastName} </h2>
+                    <div class="profile-details">
+                        <p>Email: ${user.email}</p>
+                        <p>Membership: ${user.membershipType}</p>
+                        <p>Registered: ${new Date(user.registrationDate).toLocaleDateString()}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function buildMessagesSection(db, user) {
+            const messages = (db.clients.find(client => client.id === user.id)?.messages || []).map((msg, index) =>({
+                ...msg,
+                id: msg.id || `msg-${Date.now()}-${index}`
+            }));
+            return `
+                <div class="messages-section">
+                    <h2>Message Center <span class="message-count">(${messages.length})</span></h2>
+                    <div class="message-list">
+                        ${messages.map(msg => `
+                            <div class="message-item" data-id="${msg.id}">
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <h3 class="message-subject">📩 ${msg.subject}</h3>
+                                        <div class="message-info">
+                                            <span class="message-sender">From: ${msg.from}</span>
+                                            <span class="message-date">${new Date(msg.date).toLocaleDateString()}</span>
+                                            <p class="message-preview">${msg.content.substring(0, 100)}...</p>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        async function buildMemberReadingSection(db, user) {
+            const articles = db.articles || [];
+            return `
+                <div class="member-reading-section">
+                    <h2>Members' Reading Library</h2>
+                    <div class="reading-list">
+                        ${articles.map(article => `
+                            <div class="reading-item" data-id="${article.id}">
+                                <div class="reading-preview">
+                                    <h3 class="reading-title">📖 ${article.title}</h3>
+                                    <div class="reading-meta">
+                                        <span class="reading-author">By ${article.author}</span>
+                                        <span class="reading-date">${new Date(article.date).toLocaleDateString()}</span>
+                                    </div>
+                                    <p class="reading-excerpt">${article.content?.substring(0, 150) || 'No content available'}...</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        async function buildArticlesSection(db, user) {
+            const articles = db.clients.find(client => client.id === user.id)?.readingHistory || [];
+            return `
+                <div class="articles-section">
+                    <h2>Member Articles</h2>
+                    <div class="article-list">
+                        ${articles.map(article => `
+                            <div class="article-item" data-id="${article.id}">
+                                <div class="article-preview">
+                                    <h3 class="article-title">📚 ${article.title}</h3>
+                                    <div class="article-meta">
+                                        <span class="article-author">By ${article.author}</span>
+                                        <span class="article-date">${new Date(article.readAt)}</span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Similar builder functions for tasks, payments, and articles
+
+        function initSectionInteractions(section, db, user) {
+            switch(section) {
+                case 'messages':
+                    document.querySelectorAll('.message-item').forEach(item => {
+                        item.addEventListener('click', async () => {
+                            const messageId = item.dataset.id;
+                            const client = db.clients.find(c => c.id === user.id);
+                            const message = client?.messages?.find(m => m.id === messageId);
+                            if(message) {
+                                showMessageModal(message); // Pass the message object directly
+                            }
+                        });
+                    });
+                    break;
+                case 'articles':
+                    document.querySelectorAll('.article-item').forEach(item => {
+                        item.addEventListener('click', async () => {
+                            const articleId = item.dataset.id;
+                            const article = db.articles.find(a => a.id === articleId);
+                            console.log(item);
+                            if(article) {
+                                showArticleDetail(article);
+                                
+                            }
+                        });
+                    });
+                    break;
+                case 'member-reading':
+                    document.querySelectorAll('.reading-item').forEach(item => {
+                        item.addEventListener('click', async () => {
+                            const articleId = item.dataset.id;
+                            const article = db.articles.find(a => a.id === articleId);
+                            
+                            if(article) {
+                                // Show article detail view
+                                showArticleDetail(article);
+                                
+                                // Update reading history
+                                const clientIndex = db.clients.findIndex(c => c.id === user.id);
+                                
+                                if(clientIndex > -1) {
+                                    const historyEntry = {
+                                        id: article.id,
+                                        title: article.title,
+                                        author: article.author,
+                                        readAt: new Date().toISOString()
+                                    };
+                                    
+                                    if(!db.clients[clientIndex].readingHistory) {
+                                        db.clients[clientIndex].readingHistory = [];
+                                    }
+                                    
+                                    // Add to reading history (limit to 10 entries)
+                                    db.clients[clientIndex].readingHistory.unshift(historyEntry);
+                                    db.clients[clientIndex].readingHistory = 
+                                        db.clients[clientIndex].readingHistory.slice(0, 10);
+                                    
+                                    localStorage.setItem('member_db', JSON.stringify(db));
+                                }
+                            }
+                        });
+                    });
+                    break;
+            }
+        }
+
+        async function showMessageModal(message) { 
+            const display = document.getElementById('main-display');
+            display.innerHTML = `
+                <div class="message-detail">
+                    <button class="back-button" onclick="loadSection('messages')">
+                        ← Back to Messages
+                    </button>
+                    <div class="message-header">
+                        <h2>${message.subject || 'No Subject'}</h2>
+                        <div class="message-meta">
+                            <span>From: ${message.from || 'Unknown'}</span>
+                            <span>Date: ${message.date ? new Date(message.date).toLocaleDateString() : 'No Date'}</span>
+                        </div>
+                    </div>
+                    <div class="message-content">
+                        ${message.content || '<em>No content available</em>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add article detail view function
+        async function showArticleDetail(article) {
+            const display = document.getElementById('main-display');
+            display.innerHTML = `
+                <div class="article-detail">
+                    <div class="article-header">
+                        <h1>${article.title}</h1>
+                        <div class="article-meta">
+                            <span>Author: ${article.author}</span>
+                            <span>Published: ${new Date(article.date).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        ${article.content || '<em>No content available</em>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function buildPaymentsSection(db, user) {
+            const client = db.clients.find(c => c.id === user.id);
+            const payments = client?.payments || [];
+            
+            return `
+                <div class="payments-section">
+                    <h2>Payment History <span class="payments-count">(${payments.length})</span></h2>
+                    <div class="payments-list">
+                        ${payments.length > 0 ? payments.map(payment => `
+                            <div class="payment-item" data-id="${payment.id}">
+                                <div class="payment-header">
+                                    <h3 class="payment-amount">💵 ${payment.amount.toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD'
+                                    })}</h3>
+                                    <span class="payment-status ${payment.status.toLowerCase()}">
+                                        ${payment.status}
+                                    </span>
+                                </div>
+                                <div class="payment-details">
+                                    <div class="payment-meta">
+                                        <span class="payment-date">📅 ${new Date(payment.date).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        })}</span>
+                                        <span class="payment-method">💳 Method: ${payment.method}</span>
+                                    </div>
+                                    ${payment.notes ? `<p class="payment-notes">📝 ${payment.notes}</p>` : ''}
+                                </div>
+                            </div>
+                        `).join('') : `
+                            <div class="empty-state">
+                                <p>No payment history found. Your payment records will appear here once made.</p>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        
+
+
+    };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Representation Legal Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="app.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Self-Representation Legal Hub</h1>
+        <p>Empowering Individuals in Legal Proceedings</p>
+    </header>
+
+    <nav class="header-nav">
+        <ul>
+            <div class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </div>
+            <li><a href="login.html" class="login-btn">Login/Register</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- Private Club Section -->
+        <section class="club-section">
+            <div class="section-header">
+                <h2>Members-Only Advocacy Club</h2>
+                <button class="cta-button" onclick="location.href='membership.html'">
+                    Join Our Advocacy Club
+                </button>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Expert Consultation</h3>
+                    <p>Access to legal professionals for case review</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Document Review</h3>
+                    <p>Professional proofreading of legal documents</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Community Support</h3>
+                    <p>Connect with experienced self-representatives</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Public Library Section -->
+        <section class="library-section">
+            <h2>Public Legal Resources</h2>
+            
+            <!-- Law Search Feature -->
+            <div class="library-feature">
+                <h3>Legal Statute Search</h3>
+                <p>Search current Canadian laws and regulations:</p>
+                <select id="lawSelector" class="law-dropdown">
+                    <option value="">Select a Law/Regulation</option>
+                    <option value="https://laws-lois.justice.gc.ca/eng/acts/C-46/">Criminal Code</option>
+                    <option value="https://laws-lois.justice.gc.ca/eng/acts/C-5.6/">Canada Evidence Act</option>
+                    <option value="https://laws-lois.justice.gc.ca/eng/acts/F-7/">Federal Courts Act</option>
+                </select>
+            </div>
+
+            <!-- Evidence & Precedent Section -->
+            <div class="library-feature">
+                <h3>Case Preparation Tools</h3>
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Evidence Collection Guide</h4>
+                        <p>Learn proper evidence handling procedures</p>
+                        <a href="display.html?id=1" class="guide-link">View Guide →</a>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Precedent Case Research</h4>
+                        <p>Find relevant case law for your matter</p>
+                        <a href="display.html?id=2" class="guide-link">Search Database →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Court Procedures Section -->
+            <div class="library-feature">
+                <h3>Court Procedure Resources</h3>
+                <ul class="procedure-list">
+                    <li><a href="display.html?id=3">Step-by-Step Court Process</a></li>
+                    <li><a href="display.html?id=4">Filing Notices (Claim/Application)</a></li>
+                    <li><a href="display.html?id=5">Affidavit Preparation Guide</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Marketing Articles -->
+        <section class="articles-section">
+            <h2>Featured Articles</h2>
+            <div class="article-grid">
+                <article class="article-card">
+                    <h3>10 Common Mistakes in Self-Representation</h3>
+                    <p>Learn how to avoid procedural errors...</p>
+                    <a href="display.html?id=6" class="read-more">Read Article →</a>
+                </article>
+                <article class="article-card">
+                    <h3>Understanding Courtroom Etiquette</h3>
+                    <p>Essential tips for proper court conduct...</p>
+                    <a href="display.html?id=7" class="read-more">Read Article →</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <h2>Contact Us</h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <div class="input-container">
+                        <textarea 
+                            id="message" 
+                            placeholder="Type your message here... (max 400 words)"
+                            maxlength="2000"
+                            required
+                        ></textarea>
+                        <div class="form-decoration">
+                            <div class="decor-line"></div>
+                            <div class="decor-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="word-counter">
+                        <span id="wordCount">0</span>/400 words
+                    </div>
+                </div>
+                <button type="submit" class="cta-button send-btn">
+                    <span>Send Message</span>
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
+                    </svg>
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>Disclaimer: This website provides general legal information and is not a substitute for professional legal advice</p>
+        <p>&copy; 2023 Self-Representation Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Law selector redirect
+        document.getElementById('lawSelector').addEventListener('change', function() {
+            if(this.value) window.open(this.value, '_blank');
+        });
+
+        // Word counter for contact form
+        document.getElementById('message').addEventListener('input', function() {
+        const wordCount = this.value.trim().split(/\s+/).length;
+        const counterElement = document.getElementById('wordCount');
+        
+        counterElement.textContent = wordCount;
+        counterElement.style.color = wordCount > 400 ? '#e74c3c' : '#7f8c8d';
+        
+        if(wordCount > 400) {
+            this.setCustomValidity('Message exceeds 400 words');
+        } else {
+            this.setCustomValidity('');
+        }
+        });
+
+        if(window.app?.initialized) {
+            app.handlePublicAccess();
+        } else {
+            document.addEventListener('appInitialized', () => {
+                app.handlePublicAccess();
+            });
+        }
+    </script>
+</body>
+</html>

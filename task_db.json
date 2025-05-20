@@ -1,0 +1,55 @@
+{
+    "version": 1.2,
+    "tasks": [
+      {
+        "id": "task-1691234567890",
+        "userId": "user-123",
+        "title": "Quote asking for credibility assessment of witness statements",
+        "details": "Nature: Credibility analysis\nSituation: Need to verify witness testimony reliability in employment dispute\nExpected Results: Detailed report ranking statement credibility with supporting rationale",
+        "category": "credibility",
+        "contact": {
+          "method": "email",
+          "days": ["mon", "wed", "fri"],
+          "time": "14:30"
+        },
+        "status": "Pending Review",
+        "created": "2023-08-05T09:15:00Z"
+      },
+      {
+        "id": "task-1691234567891",
+        "userId": "user-456",
+        "title": "Case law analysis for breach of contract",
+        "details": "Nature: Precedent research\nSituation: Need comparable cases from last 5 years\nExpected Results: List of relevant cases with key similarities/differences",
+        "category": "caselaw",
+        "contact": {
+          "method": "video",
+          "days": ["tue", "thu"],
+          "time": "10:00"
+        },
+        "status": "In Progress",
+        "created": "2023-08-04T14:20:00Z"
+      },
+      {
+        "id": "task-1691234567892",
+        "userId": "user-789",
+        "title": "Evidence review for small claims court",
+        "details": "Nature: Document verification\nSituation: Need validation of 15 email threads as evidence\nExpected Results: Organized evidence log with relevance ratings",
+        "category": "evidence",
+        "contact": {
+          "method": "phone",
+          "days": ["wed"],
+          "time": "16:00"
+        },
+        "status": "Completed",
+        "created": "2023-08-03T11:45:00Z"
+      }
+    ],
+    "admin": [{
+        "id": "ADMIN-001",
+        "name": "System Administrator",
+        "username": "zianw@hotmail.com",
+        "hashedPassword":"0b8e89d83b2e29fca2c0b69b6c709a5212d15a3557ed515a31076f63b58a1f6c",
+        "employeeId": "EMP-2023-001",
+        "lastAccess": "2023-08-25T14:30:00Z"
+    }]
+  }

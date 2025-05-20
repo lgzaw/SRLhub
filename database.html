@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database View - Legal Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>LocalStorage Database Viewer</h1>
+        <p>All stored application data</p>
+    </header>
+
+    <nav class="header-nav">
+        <ul>
+            <div class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="club.html">Cluber's Desktop</a></li>
+                <li><a href="round_table.html">Round Table</a></li>
+                <li><a href="tasks.html">My Tasks</a></li>
+                <li><a href="admin.html">Admin Panel</a></li>
+            </div>
+            <li><a href="login.html" class="login-btn">Login/Register</a></li>
+        </ul>
+    </nav>
+
+    <main class="database-container">
+        <div class="database-section">
+            <h2>Public Database</h2>
+            <pre id="public-db"></pre>
+        </div>
+
+        <div class="database-section">
+            <h2>Member Database</h2>
+            <pre id="member-db"></pre>
+        </div>
+
+        <div class="database-section">
+            <h2>Task Database</h2>
+            <pre id="task-db"></pre>
+        </div>
+    </main>
+
+    <script>
+        function displayData() {
+            try {
+                document.getElementById('public-db').textContent = 
+                    JSON.stringify(JSON.parse(localStorage.getItem('database')), null, 2);
+                
+                document.getElementById('member-db').textContent = 
+                    JSON.stringify(JSON.parse(localStorage.getItem('member_db')), null, 2);
+                
+                document.getElementById('task-db').textContent = 
+                    JSON.stringify(JSON.parse(localStorage.getItem('task_db')), null, 2);
+            } catch(e) {
+                console.error('Error displaying databases:', e);
+            }
+        }
+        
+        // Refresh data every 5 seconds
+        displayData();
+        setInterval(displayData, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register - Self-Representation Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Self-Representation Legal Hub</h1>
+        <p>Empowering Individuals in Legal Proceedings</p>
+        <button id="admin-toggle" style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: white; opacity: 0.2; cursor: pointer;">*</button>
+    </header>
+
+    <nav class="header-nav">
+        <ul>
+            <div class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </div>
+            <li><a href="login.html" class="login-btn">Login/Register</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="auth-container">
+            <div class="auth-toggle">
+                <button class="active" onclick="showForm('login')">Login</button>
+                <button onclick="showForm('register')">Register</button>
+            </div>
+
+            <form id="login-form" class="auth-form active">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">
+                    Login
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M10 17l5-5-5-5v10z"/>
+                    </svg>
+                </button>
+            </form>
+
+            <form id="register-form" class="auth-form">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required> 
+                <div class="password-rules">
+                    <span class="rule"><span class="check-icon"></span>8+ characters</span>
+                    <span class="rule"><span class="check-icon"></span>1 uppercase letter</span>
+                    <span class="rule"><span class="check-icon"></span>1 number</span>
+                    <span class="rule"><span class="check-icon"></span>1 special character</span>
+                </div>
+                <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                <div class="password-match"></div>
+
+                <div class="membership-selection" hidden>
+                    <label>
+                        <input type="radio" name="membership" value="basic" checked> Basic (Free)
+                    </label>
+                </div>
+
+                <button type="submit">
+                    Register
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path fill="currentColor" d="M10 17l5-5-5-5v10z"/>
+                    </svg>
+                </button>
+                <input type="hidden" name="membership_type" value="free">
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>Disclaimer: This website provides general legal information and is not a substitute for professional legal advice</p>
+        <p>&copy; 2023 Self-Representation Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Admin toggle functionality
+        let isAdminMode = false;
+
+        document.getElementById('admin-toggle')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            isAdminMode = !isAdminMode; // Toggle the mode
+            
+            // Visual feedback
+            this.style.animation = 'flash 0.5s';
+            setTimeout(() => {
+                this.style.animation = '';
+            }, 500);
+
+            // Update button appearance based on mode
+            if (isAdminMode) {
+                // Toggle between member and admin databases
+                const currentForm = document.querySelector('.auth-form.active');
+                if (currentForm.id === 'login-form') {
+                    const emailInput = currentForm.querySelector('input[type="email"]');
+                    const passwordInput = currentForm.querySelector('input[type="password"]');
+                    
+                    // Clear inputs
+                    emailInput.value = '';
+                    passwordInput.value = '';
+                    
+                    // Show notification
+                    alert('Admin login mode activated. Use credentials from task_db.json');
+
+                }
+            } 
+        });
+
+        //show registry form
+        function showForm(formType) {
+                document.querySelectorAll('.auth-form').forEach(form => {
+                    form.classList.remove('active');
+                });
+                document.querySelectorAll('.auth-toggle button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                document.getElementById(`${formType}-form`).classList.add('active');
+                event.target.classList.add('active');
+            }
+            // Password Validation
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const rules = document.querySelectorAll('.rule');
+            const matchIndicator = document.querySelector('.password-match');
+
+            function validatePassword() {
+                const password = passwordInput.value;
+                const confirm = confirmPasswordInput.value;
+                
+                // Check password rules
+                const hasLength = password.length >= 8;
+                const hasUpper = /[A-Z]/.test(password);
+                const hasNumber = /\d/.test(password);
+                const hasSpecial = /[!@#$%^&*]/.test(password);
+                
+                // Update rule indicators
+                rules[0].classList.toggle('valid', hasLength);
+                rules[1].classList.toggle('valid', hasUpper);
+                rules[2].classList.toggle('valid', hasNumber);
+                rules[3].classList.toggle('valid', hasSpecial);
+                
+                // Check password match
+                const passwordsMatch = password === confirm && password !== '';
+                matchIndicator.textContent = passwordsMatch ? '✓ Passwords match' : '✗ Passwords do not match';
+                matchIndicator.style.color = passwordsMatch ? '#27ae60' : '#e74c3c';
+                
+                return hasLength && hasUpper && hasNumber && hasSpecial && passwordsMatch;
+            }
+
+            // Real-time validation
+            [passwordInput, confirmPasswordInput].forEach(input => {
+                input.addEventListener('input', validatePassword);
+            });
+
+
+        //form submission handler
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Wait for app initialization
+            while(!window.app) { 
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+
+           
+            //Registser Form submission
+            document.getElementById('register-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!validatePassword()) {
+                    alert('Please fix password requirements before submitting');
+                    return;
+                }
+
+                const db = await app.initMemberDatabase();
+                const user = {
+                    id: Date.now(),
+                    fullName: document.querySelector('#register-form input[type="text"]').value,
+                    email: document.querySelector('#register-form input[type="email"]').value,
+                    hashedPassword: CryptoJS.SHA256(document.getElementById('password').value).toString(),
+                    registrationDate: new Date().toISOString(),
+                    membershipType: 'free',
+                    lastLogin: null
+                };
+
+                if(db.clients.some(client => client.email === user.email)) {
+                    alert('Email already registered');
+                    return;
+                }
+
+                db.clients.push(user);
+                localStorage.setItem('member_db', JSON.stringify(db));
+                // After successful registration
+                alert('Registration successful! Redirecting to your profile...');
+                // Before redirect
+                //window.location.href = 'login.html';
+                app.startSession(user);
+                window.location.href = 'club.html';
+            });
+
+            //Add Login Handler
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const form = e.target;
+                const email = form.querySelector('input[type="email"]').value;
+                const password = form.querySelector('input[type="password"]').value;
+                const hashedPassword = CryptoJS.SHA256(password).toString();
+                
+                // First check if it's an admin login
+                if (isAdminMode) {
+                    try{
+                        const taskDb= await app.initTaskDatabase();
+                        
+                        const admin = taskDb.admin.find(a => 
+                            a.username === email && 
+                            a.hashedPassword=== hashedPassword 
+                        );
+                        
+                        if (admin) {
+                            // Admin login successful
+                            app.startSession({
+                                id: admin.employeeId,
+                                fullName: admin.name,
+                                email: admin.username,
+                                isAdmin: true
+                            });
+
+                        // Reset admin mode after successful login
+                        
+                        window.location.href = 'admin.html'; 
+                        isAdminMode = false; 
+                        return;
+                        }
+                    } catch (error) {
+                        console.error('Admin login failed:', error);
+                        alert('Invalid admin credentials');
+                        return;
+                    }
+                } else { 
+                    // Regular member login
+                    const db = await app.initMemberDatabase();
+                        
+                    
+                    const user = db.clients.find(client => 
+                        client.email === email && 
+                        client.hashedPassword === hashedPassword
+                    );
+                    
+                    if(user) {
+                        app.startSession(user);
+                        updateNavigation();
+                        window.location.href = 'club.html';
+                    } else {
+                        alert('Invalid email or password');
+                    }
+                }
+            });
+        });
+
+
+            
+    </script>
+</body>
+</html>

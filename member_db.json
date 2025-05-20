@@ -1,0 +1,29 @@
+{
+    "version": 1.1,
+    "members": [
+        {
+            "id": 1001,
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "john@example.com",
+            "hashedPassword": "0b8e89d83b2e29fca2c0b69b6c709a5212d15a3557ed515a31076f63b58a1f6c", 
+            "registrationDate": "2023-07-15",
+            "membershipType": "free",
+            "lastLogin": "2023-08-20",
+            "messages": [{ "id": "001", "subject": "Case Update", "from": "Legal Team", "date": "2023-08-18", "status": "Unread", "content": "the message is improtant for your membership." }],
+            "payments": [{ "id": "001","amount": 199.99, "date": "2023-08-01", "method": "Credit Card", "status": "Paid" }],
+            "tasks": [{"id": "001","title":"title -1","category":"evidence","description": "Submit Form 12B", "dueDate": "2023-08-25", "status": "In Progress", "priority": "High"}],
+            "readingHistory": [{"id": "article-124","title": "Civil Procedure Handbook", "author": "John Doe", "category": "Legal Reference", "readAt": "2023-08-19T16:45:00Z"}]
+        }
+    ],
+    "member_articles": [
+        {
+            "id": "article-123",
+            "title": "Legal Guide",
+            "content": "...",
+            "category": "Legal Reference",
+            "author": "John Doe",
+            "date": "2023-08-15"
+        }
+    ]
+}

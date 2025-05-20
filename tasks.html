@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register - Self-Representation Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="app.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Self-Representation Legal Hub</h1>
+        <p>Empowering Individuals in Legal Proceedings</p>
+    </header>
+
+
+    <nav class="header-nav">
+        <ul>
+            <div class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="club.html">Cluber's Desktop</a></li>
+                <li><a href="round_table.html">Round Table</a></li>
+                <li><a href="tasks.html">My Tasks</a></li>
+                <li><a href="#" data-section="member-reading">Members' Reading</a></li>
+            </div>
+            <li class="profile-dropdown">
+                <div class="profile-icon">👤</div>
+                <div class="dropdown-content">
+                    <a href="round_table.html">Members' Round Table</a>
+                    <a href="#" onclick="app.handleLogout()">Log Out</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <footer>
+        <p>Disclaimer: This website provides general legal information and is not a substitute for professional legal advice</p>
+        <p>&copy; 2023 Self-Representation Hub. All rights reserved.</p>
+    </footer>
+</body>
+
+<script>
+    if(window.app?.initialized) {
+        app.handlePublicAccess();
+    } else {
+        document.addEventListener('appInitialized', () => {
+        app.handlePublicAccess();
+        });
+    }
+</script>

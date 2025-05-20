@@ -1,0 +1,89 @@
+{
+    "version" : 1.1,
+    "articles": [
+        {
+            "id": 1,
+            "title": "Evidence Collection Guide",
+            "author": "SRL Hub Team",
+            "content": "<h2>Proper Evidence Handling Procedures</h2><p>...</p>",
+            "references": [
+                {
+                    "title": "Canada Evidence Act",
+                    "link": "https://laws-lois.justice.gc.ca/eng/acts/C-5.6/"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Precedent Case Research",
+            "author": "SRL Hub Team",
+            "content": "<h2>Finding Relevant Case Law</h2><p>...</p>",
+            "references": [
+                {
+                    "title": "Canadian Legal Information Institute",
+                    "link": "https://www.canlii.org/"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "title": "Step-by-Step Court Process",
+            "author": "SRL Hub Team",
+            "content": "<h2>Step-by-Step Court Process</h2><p>...</p>",
+            "references": [
+                {
+                    "title": "n/a",
+                    "link": "https://laws-lois.justice.gc.ca/eng/acts/C-5.6/"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "title": "Filing Notices (Claim/Application)",
+            "author": "SRL Hub Team",
+            "content": "<h2>Filing Notices (Claim/Application)</h2><p>...</p>",
+            "references": [
+                {
+                    "title": "n/a",
+                    "link": "https://laws-lois.justice.gc.ca/eng/acts/C-5.6/"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "title": "Affidavit Preparation Guide",
+            "author": "SRL Hub Team",
+            "content": "<h2>Affidavit Preparation Guide</h2><p>...</p>",
+            "references": [
+                {
+                    "title": "n/a",
+                    "link": "https://laws-lois.justice.gc.ca/eng/acts/C-5.6/"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "title": "10 Common Mistakes in Self-Representation",
+            "author": "SRL Hub Team",
+            "content": "<h2>Learn how to avoid procedural errors...</h2><p>...</p>",
+            "references": [
+                {
+                    "title": "n/a",
+                    "link": "https://laws-lois.justice.gc.ca/eng/acts/C-5.6/"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "title": "Understanding Courtroom Etiquette",
+            "author": "SRL Hub Team",
+            "content": "<h2>Essential tips for proper court conduct...</h2><p>...</p>",
+            "references": [
+                {
+                    "title": "n/a",
+                    "link": "https://www.canlii.org/"
+                }
+            ]
+        }
+    ]
+}
